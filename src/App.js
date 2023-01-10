@@ -1,6 +1,6 @@
 
 /*useState is a hook*/ 
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import AddTask from './components/AddTask'
 import Header from './components/Header'
 import Tasks from './components/Tasks'
@@ -9,27 +9,37 @@ function App() {
 
    const [showAddTask,setShowAddTask] = useState(false)
 
-    const [tasks,setTasks] = useState([{
-      id:1,
-      text:'Pickup from school',
-      dayTime : '3:15 PM on 10th Jan 2022',
-      reminder : true,
-  },
-  {
-    id:2,
-    text:'Business meeting',
-    dayTime : '3:45 PM on 10th Jan 2022',
-    reminder : false,
-  }])
+  const [tasks,setTasks] = useState([])
 
-  const deleteTask = (id)=>{
+  useEffect(()=>{
+
+    const getTasks = async () =>{
+      const tasks = await fetchTasks();
+      setTasks(tasks);
+    }
+
+    getTasks();
+
+  },[])
+
+  const fetchTasks = async () =>{
+      
+    const res = await fetch('http://localhost:5000/tasks');
+    const data = await res.json();
+    return data;
+}
+
+  const deleteTask = async (id) => {
    // console.log('Delete a task',id)
-   setTasks(tasks.filter(task => task.id != id));
+   await fetch(`http://localhost:5000/tasks/${id}`,{
+    method:'DELETE',
+   })
+   setTasks(tasks.filter(task => task.id !== id));
   }
 
   const toggleReminder = (id) =>{
    // console.log('Toggle reminder',id);
-    setTasks(tasks.map(task => task.id == id ? {...task,reminder:!task.reminder} : task));
+    setTasks(tasks.map(task => task.id === id ? {...task,reminder:!task.reminder} : task));
   }
 
   const addTask = (task) =>{
