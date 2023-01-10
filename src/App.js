@@ -1,5 +1,6 @@
 
 /*useState is a hook*/ 
+import { async } from 'q'
 import {useState, useEffect} from 'react'
 import AddTask from './components/AddTask'
 import Header from './components/Header'
@@ -42,11 +43,19 @@ function App() {
     setTasks(tasks.map(task => task.id === id ? {...task,reminder:!task.reminder} : task));
   }
 
-  const addTask = (task) =>{
+  const addTask = async (task) =>{
    //  console.log('Task ',task);
-   const id = Math.floor(Math.random() * 10000) + 1;
-   const newTask = {id,...task};
-   setTasks([...tasks,newTask]);
+     const res = await fetch('http://localhost:5000/tasks',{
+      method:'POST',
+      headers:{
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(task)
+     })
+
+     const data = await res.json();
+
+     setTasks([...tasks,data]);
    }
 
   return (

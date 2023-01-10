@@ -11,6 +11,18 @@
       "text": "Business meeting",
       "dayTime": "3:45 PM on 10th Jan 2022",
       "reminder": false
+    },
+    {
+      "text": "Go shopping",
+      "dayTime": "7:00 PM on 10th Jan 2022",
+      "reminder": true,
+      "id": 3
+    },
+    {
+      "text": "Car MOT test",
+      "dayTime": "11 AM on 10 Jan 2022",
+      "reminder": false,
+      "id": 4
     }
   ]
 }
