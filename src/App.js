@@ -1,6 +1,5 @@
 
 /*useState is a hook*/ 
-import { async } from 'q'
 import {useState, useEffect} from 'react'
 import AddTask from './components/AddTask'
 import Header from './components/Header'
